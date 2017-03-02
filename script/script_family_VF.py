@@ -16,11 +16,15 @@ for ligne in fichier :
 	pos = souche_prot.find("$")
 	prot = souche_prot[pos+1:]
 	famille = text[0]
-	
+
+#Remplissage de la famille dans la table Famille
+
 	cursor.execute("""SELECT * FROM FAMILLE WHERE NomFa = %s""", (famille,))
 	rows = cursor.fetchall()
 	if rows == []:
 		cursor.execute("""INSERT INTO FAMILLE(NomFa) VALUES(%s)""", (famille,))
+
+#Remplissage de idFa dans la table protéine
 
 	cursor.execute("""SELECT idFa FROM FAMILLE WHERE NomFa = %s""", (famille,))
 	rows = cursor.fetchall()

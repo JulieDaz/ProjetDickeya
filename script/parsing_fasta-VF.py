@@ -12,9 +12,9 @@ for seq_record in SeqIO.parse("../data/All50Dickeya.fasta", "fasta"):
 	pos = seq_record.id.find("$")
 	fonction = []
 
-	souche = seq_record.id[0:pos]
+	souche = seq_record.id[0:pos]	#récupération de la souche
 
-	prot = seq_record.id[pos+1:]
+	prot = seq_record.id[pos+1:]	#récupération de la protéine
 
 	seq = str(seq_record.seq)
 	
@@ -26,7 +26,7 @@ for seq_record in SeqIO.parse("../data/All50Dickeya.fasta", "fasta"):
 		j = max(fonction)
 	else :
 		j=len(seq_record.description)
-	if i == 13 : #si pas de MULTISPECIES: alors on fait rien
+	if i == 13 :	#si pas de MULTISPECIES: alors on fait rien
 		i = seq_record.description.find(" ")+1
 	fct = seq_record.description[i:j]
 			
