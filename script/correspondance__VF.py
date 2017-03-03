@@ -3,7 +3,7 @@ import mysql.connector
 conn = mysql.connector.connect(host="localhost",user="root",password="", database="Dickeya")
 cursor = conn.cursor()
 
-f=open('correspondance_protID_GeneName.txt', 'r')
+f=open('../data/correspondance_protID_GeneName.txt', 'r')
 
 for line in f :
 	if len(line.split()) == 2 :
