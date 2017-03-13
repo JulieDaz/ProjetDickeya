@@ -1,0 +1,86 @@
+* /*select universel*/
+	{
+	font-family: 'Dancing Script', cursive;
+		background-color : white ;
+	}
+
+mark{
+	color : purple ;
+	background-color : white ;
+	font-weight : bold;
+	font-size : 100px;
+	text-align : center ;
+	}
+body{
+	background-color : white ;
+	color : #5d665b ;
+	margin : 100px ;
+	font-size : x-large;
+	margi,-left : 170px;
+	}
+	
+footer {
+		/*position:fixed;*/
+		bottom: 0px;
+		text-align: center;
+		width: 100%;
+		}
+		
+header {
+	position:fixed ;
+	top:0px;
+	width: 100%;
+	}
+
+aside {
+		position: left;
+		width: 10;
+		float: left;
+
+.logo
+	{
+	float: right;
+	position : top right;
+	}
+
+.tache
+	{
+	float: right;
+	position: top right;
+	}
+	
+strong
+	{
+	text-align: justify;
+	}
+
+h2	
+	{
+		font-size:50px ;
+	}
+h3
+	{
+		font-size:40px ;
+	}
+p
+	{
+		font-size:30px ;
+	}
+	
+h4
+	{
+		font-size : 36px;
+	}
+	
+	.ligne {
+	clear : both;
+	}
+	
+.statistiques
+	{
+		position:fixed;
+		top:0px;
+		right:100px;
+		background-color:green ;
+		color:white ;
+	}
