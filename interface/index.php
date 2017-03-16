@@ -27,8 +27,9 @@
 		?>
 		<br>
 		<br>
+		
 		<input type="submit" name="valider" value="Visualiser ce projet"/>
-		</form> 
+		</form>
 	
 	</section>
 	<table>
