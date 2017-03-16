@@ -6,7 +6,10 @@
 	<section>
 		<br>
 		<h2>Requêtes</h2>
-		<p>Protéines présentent dans ces protéomes :</p>
+		<input type="checkbox" name="proteome" id="proteome"/><label><b>Protéines présentes dans ces protéomes :</b></label>
+		<br><br>
+		
+		<div class="divScroll">
 		
 		<?php
 		$connexion= connect();
@@ -14,6 +17,7 @@
 		$tab2=do_request($req2, $connexion);
 		#print_request($tab2);
 		#deconnect($connexion);
+		
 		$i = 0;
 		foreach($tab2 as $v1) {
 			foreach($v1 as $v2) {
@@ -25,21 +29,31 @@
 				$i = $i + 1	;}
 			}
 		}
+		echo '</div>
+		<input type="submit" name="tout_cocher" value="Tout cocher"/>
+		<br>
+		<p><b>Mais pas dans ceux-ci:</b></p>
+		<div class="divScroll">';
+		
+		$i = 0;
+		foreach($tab2 as $v1) {
+			foreach($v1 as $v2) {
+				if ($v2 != "NomS") {
+				echo '<form method="POST" action="checkbox.php">
+				<input type="checkbox" name="choix" value=$i>' ,$v2,'<br>
+				</form>';
+				$i = $i + 1	;}
+			}
+		}
+		
 		?>
-
-		<label for ="PourcentageId">Pourcentage identité suppérieur à :</label>
-		<input type="float" name="PourcentId" id="PourcentId" value="100"/>
-		<label for ="Pourcentageid">%</label>
+		
+		</div>
+		<input type="submit" name="tout_cocher2" value="Cocher tous les autres"/>
 		<br>
-		<label for ="PourcentageGap">Pourcentage de gap inférieur à :</label>
-		<input type="float" name="PourcentGap" id="PourcentIGap" value="0"/>
-		<label for ="PourcentageGap">%</label>
 		<br>
-		<label for ="TailleAli">Taille alignement plus grand que :</label>
-		<input type="number" name="TailleAli" id="TailleAli" value="75"/>
-		<label for ="TailleAli">acides aminés</label>
-		<br>
-		<label for ="Fonction">Fonctions:</label>
+		<input type="checkbox" name="pfonction" id="pfonction"/><label><b>Protéines impliquées dans la fonction</b></label>
+		<br><br>
 
 		<?php
 		$connexion = connect();
@@ -55,9 +69,28 @@
 			mysqli_free_result($resultat);
 		}
 		?>
+		<br>
+		<br>
+		<input type="checkbox" name="paires" id="paires"/><label><b>Paires de protéines telles que: </b></label>
+		<br><br>
+		<label for ="PourcentageId">Pourcentage identité suppérieur à :</label>
+		<input type="float" name="PourcentId" id="PourcentId" value="0"/>
+		<label for ="Pourcentageid">%</label>
+		<br>
+		<br>
+		<label for ="PourcentageGap">Pourcentage de gap inférieur à :</label>
+		<input type="float" name="PourcentGap" id="PourcentIGap" value="100"/>
+		<label for ="PourcentageGap">%</label>
+		<br>
+		<br>
+		<label for ="TailleAli">Taille alignement plus grand que :</label>
+		<input type="number" name="TailleAli" id="TailleAli" value="0"/>
+		<label for ="TailleAli">acides aminés</label>
+
 
 		<br>
-		<input type="submit" name="valider" value="Valider"/>		
+		<br>
+		<input type="submit" name="valider" value="Lancer les requêtes"/>		
 		
 	</section>
 	<table>

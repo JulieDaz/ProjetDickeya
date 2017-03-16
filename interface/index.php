@@ -7,23 +7,25 @@
 		<br>
 		<h2>Accueil</h2>
 		
+		<p> Sélectionner un projet : </p>
+		
 		<?php
 		$connexion= connect();
-		$recherche = "SELECT * FROM PROJET" ;
-		$result=do_request($recherche, $connexion);
-		?>
-		
-		<p> Sélectionner un projet : <select name="Nom">
-		<?php
-		while ($row=mysql_fetch_array($result))
+		$recherche = "SELECT Nom FROM PROJET" ;
+		$resultat = mysqli_query($connexion, $recherche);
+		if ($resultat==FALSE|| mysqli_num_rows($resultat) != 0)
 		{
-		?>
-		<OPTION><?php echo $row['Nom']; ?></OPTION>
-		<?php
+			echo "<select name='fonction'>";
+			while($donnees = mysqli_fetch_assoc($resultat))
+			{
+				echo '<option>'.$donnees['Nom'].'</option>';
+			}
+			echo "</select>";
+			mysqli_free_result($resultat);
 		}
-		deconnect($connexion);
 		?>
-		
+		<br>
+		<br>
 		<input type="submit" name="valider" value="Visualiser ce projet"/>
 		</form> 
 	
