@@ -1,4 +1,3 @@
-﻿
 	<?php
 		require ('includes/entete.php');
 	?>
@@ -6,9 +5,11 @@
 	<section>
 		<br>
 		<h2>Requêtes</h2>
+
 		<input type="checkbox" name="proteome" id="proteome"/><label><b>Protéines présentes dans ces protéomes :</b></label>
 		<br><br>
-		
+		<form method="POST" action="requetes.php" name="formulaire">
+
 		<div class="divScroll">
 		
 		<?php
@@ -22,14 +23,13 @@
 		foreach($tab2 as $v1) {
 			foreach($v1 as $v2) {
 				if ($v2 != "NomS") {
-				echo '<form method="POST" action="checkbox.php">
-				<input type="checkbox" name="choix[]" value=$i>' ,$v2,'<br>
-				</form>';
+				echo '<input type="checkbox" name="choix[]" value=$i>' ,$v2,'<br>';
 				#echo "$v2\n";
 				$i = $i + 1	;}
 			}
 		}
 		echo '</div>
+		<br>
 		<input type="submit" name="tout_cocher" value="Tout cocher"/>
 		<br>
 		<p><b>Mais pas dans ceux-ci:</b></p>
@@ -39,9 +39,7 @@
 		foreach($tab2 as $v1) {
 			foreach($v1 as $v2) {
 				if ($v2 != "NomS") {
-				echo '<form method="POST" action="checkbox.php">
-				<input type="checkbox" name="choix" value=$i>' ,$v2,'<br>
-				</form>';
+				echo '<input type="checkbox" name="choix2[]" value=$i>' ,$v2,'<br>';
 				$i = $i + 1	;}
 			}
 		}
@@ -49,9 +47,11 @@
 		?>
 		
 		</div>
+		<br>
 		<input type="submit" name="tout_cocher2" value="Cocher tous les autres"/>
 		<br>
 		<br>
+		
 		<input type="checkbox" name="pfonction" id="pfonction"/><label><b>Protéines impliquées dans la fonction</b></label>
 		<br><br>
 
@@ -91,7 +91,7 @@
 		<br>
 		<br>
 		<input type="submit" name="valider" value="Lancer les requêtes"/>		
-		
+		</form>
 	</section>
 	<table>
 	</table>

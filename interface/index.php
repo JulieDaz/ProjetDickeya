@@ -9,6 +9,7 @@
 		
 		<p> Sélectionner un projet : </p>
 		
+		<form name="Select" method="post" action="requetes.php">
 		<?php
 		$connexion= connect();
 		$recherche = "SELECT Nom FROM PROJET" ;
