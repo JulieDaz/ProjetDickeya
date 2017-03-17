@@ -11,7 +11,7 @@
 		
 		<input type="checkbox" name="proteome" id="proteome"/><label><b>Protéines présentes dans ces protéomes :</b></label>
 		<br><br>
-		<div class="divScroll">
+		<div class="divScroll" id="div1">
 		
 		<?php
 		$connexion= connect();
@@ -24,7 +24,7 @@
 		foreach($tab2 as $v1) {
 			foreach($v1 as $v2) {
 				if ($v2 != "NomS") {
-				echo '<input type="checkbox" name="NomS'.$i.'" value="'.$v2.'">' ,$v2,'<br>';
+				echo '<input type="checkbox" onclick="putEnabled()" name="NomS'.$i.'" value="'.$v2.'">' ,$v2,'<br>';
 				#echo "$v2\n";
 				$i = $i + 1	;}
 			}
@@ -35,13 +35,13 @@
 		<input type="button" onclick="declickAll()" value="Tout décocher"/>
 		<br>
 		<p><b>Mais pas dans ceux-ci:</b></p>
-		<div class="divScroll">';
+		<div class="divScroll" id="div2">';
 		
 		$i = 0;
 		foreach($tab2 as $v1) {
 			foreach($v1 as $v2) {
 				if ($v2 != "NomS") {
-				echo '<input type="checkbox" name="NoNomS'.$i.'" value="'.$v2.'">' ,$v2,'<br>';
+				echo '<input type="checkbox" onclick="makeEnabled()" name="NoNomS'.$i.'" value="'.$v2.'">' ,$v2,'<br>';
 				$i = $i + 1	;}
 			}
 		}

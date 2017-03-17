@@ -12,7 +12,7 @@
 	
 	if (isset($_POST['valider']))
 	{
-			/* si aucune case de coché*/
+			/* si aucune case de cochée*/
 			if (!isset($_POST['proteome']) && !isset($_POST['pfonction']) && !isset($_POST['paires']))
 			{
 				echo "Aucune requête n'est cochée";
@@ -21,7 +21,7 @@
 			{
 				/* si la case 1 est cochée*/
 				if(isset($_POST['proteome']))
-				{
+				{	
 					$cNomS = "('";
 					$cNoNomS = "('";
 					$j = 0;
@@ -52,11 +52,17 @@
 					$cNomS = substr($cNomS,0,-2);
 					$cNomS = $cNomS.")";
 					$cNoNomS = substr($cNoNomS,0,-2);
+					if($cNoNomS == "")
+					{
+					$cNoNomS = "('')";
+					}
+					else
+					{
 					$cNoNomS = $cNoNomS.")";
+					}
 					
-					
-					#si seulement la requète 1 est cochée
-					if(!isset($_POST['pfonction']) && !isset($_POST['paires']) && pb!=1)
+					#si seulement la requête 1 est cochée
+					if(!isset($_POST['pfonction']) && !isset($_POST['paires']) && $pb!=1)
 					{
 						$reqCase1='SELECT NOMS, NomP, NomGene, NomFo
 						FROM PROTEINE AS p NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE LEFT JOIN FONCTION AS f ON p.IdFo = f.IdFO
@@ -70,12 +76,12 @@
 					}
 					else
 					{
-						#si la requète 1 et 2 est cochées
-						if(isset($_POST['pfonction']) && !isset($_POST['paires']) && pb!=1)
+						#si la requête 1 et 2 sont cochées
+						if(isset($_POST['pfonction']) && !isset($_POST['paires']) && $pb!=1)
 						{
 							$reqCase2et3='SELECT NOMS, NomP, NomGene, NomFo
 							FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE NATURAL JOIN FONCTION 
-							WHERE NomS IN '.$cNomS.' AND NomFo = '.$_POST['fonction'].'
+							WHERE NomS IN '.$cNomS.' AND NomFo = \''.$_POST['fonction'].'\'
 							AND NomP NOT IN(SELECT DISTINCT NomP 
 							FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE
 							WHERE NomS IN '.$cNoNomS.')
@@ -85,8 +91,8 @@
 						}
 						else
 						{
-							#si la requète 1 et 3 est cochées
-							if(!isset($_POST['pfonction']) && isset($_POST['paires']) && pb!=1)
+							#si la requête 1 et 3 est cochées
+							if(!isset($_POST['pfonction']) && isset($_POST['paires']) && $pb!=1)
 							{
 								$reqCase1et3='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, f1.NomFo AS Fonction1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 								FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
@@ -95,18 +101,18 @@
 								INNER JOIN SOUCHE s2 ON s2.idS=c2.idS 
 								INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
 								INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
-								WHERE s1.NomS IN '.$cNomS.' AND '.s2.NomS.' IN $cNomS AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >= '.$_POST['TailleAli'].'
+								WHERE s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >= '.$_POST['TailleAli'].'
 								AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 								AND p2.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
-								ORDER BY c.PourcentageId, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP
+								ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
 								LIMIT 5';
 								$tabCase1et3=do_request($reqCase1et3, $connexion);
 								print_request($tabCase1et3);
 							}
 							else
 							{
-								#les 3 requètes sont cochés
-								if(isset($_POST['pfonction']) && isset($_POST['paires']) && pb!=1)
+								#les 3 requêtes sont cochées
+								if(isset($_POST['pfonction']) && isset($_POST['paires']) && $pb!=1)
 								{
 									$reqCase1et2et3='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 									FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
@@ -115,10 +121,10 @@
 									INNER JOIN SOUCHE s2 ON s2.idS=c2.idS 
 									INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
 									INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
-									WHERE s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.' AND f1.NomFo = $Fct AND f2.NomFo = '.$_POST['fonction'].' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >= '.$_POST['TailleAli'].'
+									WHERE s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.' AND f1.NomFo = \''.$_POST['fonction'].'\' AND f2.NomFo = \''.$_POST['fonction'].'\' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >= '.$_POST['TailleAli'].'
 									AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 									AND p2.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
-									ORDER BY c.PourcentageId, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP
+									ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
 									LIMIT 5';
 									$tabCase1et2et3=do_request($reqCase1et2et3, $connexion);
 									print_request($tabCase1et2et3);
@@ -128,10 +134,10 @@
 					}
 				}
 				else
-				{
-					#si case3 cochée
+				{   
+					#si case 3 cochée
 					if(isset($_POST['paires']))
-					{
+					{ 
 						if(empty($_POST['PourcentId']))
 						{$_POST['PourcentId']=0;}
 						if(empty($_POST['PourcentGap']))
@@ -141,7 +147,7 @@
 						
 						/* si seulement case 3 cochée*/
 						if(!isset($_POST['pfonction']))
-						{
+						{ 
 
 							$reqCase3='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, f1.NomFo AS Fonction1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 							FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
@@ -151,34 +157,36 @@
 							INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
 							INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
 							WHERE c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >= '.$_POST['TailleAli'].'
-							ORDER BY c.PourcentageId, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP
+							ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
 							LIMIT 5';
 							$tabCase3=do_request($reqCase3, $connexion);
 							print_request($tabCase3);
 						
 						}
 						else
-						{
-							#si la case3 et la case 2 sont cochées
+						{ 
+							#si la case 3 et la case 2 sont cochées
 							if(isset($_POST['pfonction']))
-							{
+							{ 
 								if(empty($_POST['fonction']))
 								{echo "Vous n'avez pas sélectionné de fonction";} #on ne fait que la 3ieme requete dans ce cas
-							}
-							else
-							{
-								$reqCase2Et3 = 'SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
-								FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
-								INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
-								INNER JOIN SOUCHE s1 ON s1.idS=c1.idS
-								INNER JOIN SOUCHE s2 ON s2.idS=c2.idS 
-								INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
-								INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
-								WHERE f1.NomFo = $Fct AND f2.NomFo = '.$_POST['fonction'].' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >='.$_POST['paires'].'
-								ORDER BY c.PourcentageId, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP
-								LIMIT 5';
-								$tabCase2Et3=do_request($reqCase2Et3, $connexion);
-								print_request($tabCase2Et3);
+							
+								else
+								{ 
+									$reqCase2Et3 = 'SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
+									FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
+									INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
+									INNER JOIN SOUCHE s1 ON s1.idS=c1.idS
+									INNER JOIN SOUCHE s2 ON s2.idS=c2.idS 
+									INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
+									INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
+									WHERE f1.NomFo = \''.$_POST['fonction'].'\' AND f2.NomFo = \''.$_POST['fonction'].'\' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >='.$_POST['TailleAli'].'
+									ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
+									LIMIT 5';
+									echo $reqCase2Et3 ;
+									$tabCase2Et3=do_request($reqCase2Et3, $connexion);
+									print_request($tabCase2Et3);
+								}
 							}
 						}
 						
@@ -194,9 +202,7 @@
 							{
 								$reqCase2='SELECT NomS, NomP, NomGene, NomFo
 								FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE NATURAL JOIN FONCTION 
-								WHERE NomFo = '.$_POST['fonction'].';
-								LIMIT 5';
-								/*echo $_POST['fonction'];*/
+								WHERE NomFo = \''.$_POST['fonction'].'\'';
 								$tabCase2=do_request($reqCase2, $connexion);
 								print_request($tabCase2);		
 							}

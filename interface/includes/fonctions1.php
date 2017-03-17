@@ -88,7 +88,7 @@ if(count($table_sql) >= 1) {
     $table.= '</table>';
     echo $table;
 	} else {
-	echo "aucune ligne disponible";
+	echo "Aucun résultat disponible...";
 	}
 }
 
