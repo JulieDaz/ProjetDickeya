@@ -32,6 +32,7 @@
 		echo '</div>
 		<br>
 		<input type="button" onclick="clickAll()" value="Tout cocher"/>
+		<input type="button" onclick="declickAll()" value="Tout décocher"/>
 		<br>
 		<p><b>Mais pas dans ceux-ci:</b></p>
 		<div class="divScroll">';
@@ -50,6 +51,7 @@
 		</div>
 		<br>
 		<input type="button" onclick="clickAllWithout()" value="Cocher tous les autres"/>
+		<input type="button" onclick="declickAllWithout()" value="Tout décocher"/>
 		<br>
 		<br>
 		
@@ -74,7 +76,7 @@
 		<br>
 		<input type="checkbox" name="paires" id="paires"/><label><b>Paires de protéines telles que: </b></label>
 		<br><br>
-		<label for ="PourcentageId">Pourcentage identité suppérieur à :</label>
+		<label for ="PourcentageId">Pourcentage identité supérieur à :</label>
 		<input type="float" name="PourcentId" id="PourcentId" value="0"/>
 		<label for ="Pourcentageid">%</label>
 		<br>
