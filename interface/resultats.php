@@ -61,6 +61,12 @@
 					$cNoNomS = $cNoNomS.")";
 					}
 					
+					if($cNomS == "")
+					{
+					$pb=1;
+					echo "Erreur, vous n'avez pas sélectionné de souche d'interêt .";
+					}
+					
 					#si seulement la requête 1 est cochée
 					if(!isset($_POST['pfonction']) && !isset($_POST['paires']) && $pb!=1)
 					{
@@ -94,17 +100,29 @@
 							#si la requête 1 et 3 est cochées
 							if(!isset($_POST['pfonction']) && isset($_POST['paires']) && $pb!=1)
 							{
-								$reqCase1et3='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, f1.NomFo AS Fonction1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
+								echo "<p>Protéines identiques :</p>"
+								$reqCase1et3Bis='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, f1.NomFo AS Fonction1, s2.NomS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 								FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
 								INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
 								INNER JOIN SOUCHE s1 ON s1.idS=c1.idS
 								INNER JOIN SOUCHE s2 ON s2.idS=c2.idS 
 								INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
 								INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
-								WHERE s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >= '.$_POST['TailleAli'].'
+								WHERE p1.NomP=p2.NomP AND s1.NomS>s2.NomS
+								AND s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.'
+								AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')'
+								$tabCase1et3Bis=do_request($reqCase1et3Bis, $connexion);
+								print_request($tabCase1et3Bis);
+							
+								echo "<p>Protéines similaires :</p>"
+								$reqCase1et3='SELECT s1.NomS, p1.NomP, s2.NomS, p2.NomP, p1.NomGene AS Gene, f.NomFo AS Fonction
+								FROM CONTIENT c1 NATURAL JOIN SOUCHE s1 NATURAL JOIN PROTEINE p1,
+								c2 NATURAL JOIN SOUCHE s2 NATURAL JOIN PROTEINE p2
+								LEFT JOIN FONCTION f ON f.idFo=p2.idFo
+								WHERE s1.NomS>s2.NomS AND  p1.NomP=p2.NomP
+								AND s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.'
 								AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
-								AND p2.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
-								ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
+								ORDER BY p1.NomP, s1.NOMS, , s2.NOMS
 								LIMIT 5';
 								$tabCase1et3=do_request($reqCase1et3, $connexion);
 								print_request($tabCase1et3);
@@ -114,6 +132,22 @@
 								#les 3 requêtes sont cochées
 								if(isset($_POST['pfonction']) && isset($_POST['paires']) && $pb!=1)
 								{
+								
+									echo "<p>Protéines identiques :</p>"
+									$reqCase1et3Bis='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, f1.NomFo AS Fonction1, s2.NomS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
+									FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
+									INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
+									INNER JOIN SOUCHE s1 ON s1.idS=c1.idS
+									INNER JOIN SOUCHE s2 ON s2.idS=c2.idS 
+									INNER JOIN FONCTION f1 ON f1.idFo=p1.idFo
+									INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
+									WHERE p1.NomP=p2.NomP AND s1.NomS>s2.NomS
+									AND f1.NomFo = \''.$_POST['fonction'].'\'
+									AND s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.'
+									AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')'
+
+							
+									echo "<p>Protéines similaires :</p>"
 									$reqCase1et2et3='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 									FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
 									INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
@@ -148,7 +182,17 @@
 						/* si seulement case 3 cochée*/
 						if(!isset($_POST['pfonction']))
 						{ 
-
+							echo "<p>Protéines identiques :</p>"
+							$reqCase3Bis='SELECT s1.NomS, p1.NomP, s2.NomS, p2.NomP, p1.NomGene AS Gene, f.NomFo AS Fonction
+							FROM CONTIENT c1 NATURAL JOIN SOUCHE s1 NATURAL JOIN PROTEINE p1,
+							CONTIENT c2 NATURAL JOIN SOUCHE s2 NATURAL JOIN PROTEINE p2
+							LEFT JOIN FONCTION f ON f.idFo=p2.idFo
+							WHERE s1.NomS>s2.NomS AND  p1.NomP=p2.NomP
+							ORDER BY p1.NomP, s1.NOMS, , s2.NOMS'
+							$tabCase3Bis=do_request($reqCase3Bis, $connexion);
+							print_request($tabCase3Bis);
+							
+							echo "<p>Protéines similaires :</p>"
 							$reqCase3='SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, f1.NomFo AS Fonction1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 							FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
 							INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
@@ -173,6 +217,17 @@
 							
 								else
 								{ 
+									echo "<p>Protéines identiques :</p>"
+									$reqCase2Et3Bis='SELECT s1.NomS, p1.NomP, s2.NomS, p2.NomP, p1.NomGene AS Gene, f.NomFo AS Fonction
+									FROM CONTIENT c1 NATURAL JOIN SOUCHE s1 NATURAL JOIN PROTEINE p1,
+									CONTIENT c2 NATURAL JOIN SOUCHE s2 NATURAL JOIN PROTEINE p2
+									INNER JOIN FONCTION f ON f.idFo=p2.idFo
+									WHERE s1.NomS>s2.NomS AND  p1.NomP=p2.NomP AND f1.NomFo = \''.$_POST['fonction'].'\'
+									ORDER BY p1.NomP, s1.NOMS, , s2.NOMS'
+									$tabCase2Et3Bis=do_request($reqCase2Et3Bis, $connexion);
+									print_request($tabCase2Et3Bis);
+							
+									echo "<p>Protéines similaires :</p>"
 									$reqCase2Et3 = 'SELECT s1.NomS AS Souche1, p1.NomP AS Proteine1, p1.NomGene AS Gene1, s2.NOMS AS Souche2, p2.NomP AS Proteine2, p2.NomGene AS Gen2, f2.NomFo AS Fonction2, c.PourcentageId, c.PourcentageGap, c.TailleAli
 									FROM COMPARE c INNER JOIN PROTEINE p1 ON c.idP1=p1.idP INNER JOIN PROTEINE p2 ON c.idP2=p2.idP INNER JOIN CONTIENT c1 ON c1.idP=p1.idP
 									INNER JOIN CONTIENT c2 ON c2.idP=p2.idP
