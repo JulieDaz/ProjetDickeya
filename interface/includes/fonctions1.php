@@ -1,6 +1,6 @@
 <?php session_start();
 
-/***** Connexion à la base de donnée ******/
+/***** Connexion à la base de données ******/
 function connect() 
 {
     $user = 'root'; // utilisatrice
@@ -88,10 +88,28 @@ if(count($table_sql) >= 1) {
     $table.= '</table>';
     echo $table;
 	} else {
-	echo "Aucun résultat disponible...";
+	echo "Aucun resultat disponible...";
 	}
 }
 
+/* renvoie la string résultat */
+function res_string($table_sql) {
+if(count($table_sql) >= 1) {
+    $table = "\n";
+	
+    foreach ($table_sql as $tuple) {
+        $table .= "\n";
+        foreach ($tuple as $attr) {
+            $table .= $attr . "\t";
+        }
+    }
+	
+    $table.= "\n";
+    return $table;
+	} else {
+	return "";
+	}
+}
 
 /* renvoi les 5 dernieres lignes de la table A en php */
 function news($A, $b) 
