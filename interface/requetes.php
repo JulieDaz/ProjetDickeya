@@ -1,5 +1,6 @@
 	<?php
 		require ('includes/entete.php');
+		require ('includes/informations.php') ;
 	?>
 
 	<section>

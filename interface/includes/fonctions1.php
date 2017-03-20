@@ -1,6 +1,6 @@
 <?php session_start();
 
-/***** Connexion à la base de données ******/
+/***** Connexion à la base de donnée ******/
 function connect() 
 {
     $user = 'root'; // utilisatrice
@@ -88,35 +88,48 @@ if(count($table_sql) >= 1) {
     $table.= '</table>';
     echo $table;
 	} else {
-	echo "Aucun resultat disponible...";
+	echo "Aucun résultat disponible...";
 	}
 }
 
-/* renvoie la string résultat */
-function res_string($table_sql) {
+
+/***** Afficher la valeur d'une requete SQL qui retourne un seul attribut*****/
+function print_result($table_sql) {
 if(count($table_sql) >= 1) {
-    $table = "\n";
-	
     foreach ($table_sql as $tuple) {
-        $table .= "\n";
         foreach ($tuple as $attr) {
-            $table .= $attr . "\t";
+            $table = $attr;
         }
     }
-	
-    $table.= "\n";
-    return $table;
+    echo $table;
 	} else {
-	return "";
+	echo "Aucun résultat disponible...";
 	}
 }
 
-/* renvoi les 5 dernieres lignes de la table A en php */
-function news($A, $b) 
-	{
-		$req1='SELECT * FROM '.$A.' ORDER BY ' .$b. ' DESC LIMIT 5';
-		$connexion = connect();
-		$tab1=do_request($req1, $connexion);
-		print_request($tab1);
-		deconnect($connexion);
+
+/* renvoie la string résultat */
+function res_string($table_sql, $i) {
+if(count($table_sql) >= 1) {
+	$table = "";
+    foreach ($table_sql as $tuple) {
+        foreach ($tuple as $attr) {
+			if($i!=0)
+			{
+				$table .= $attr . "\t";
+			}
+        }
+		if ($i==0)
+		{
+			$i=1;
+		}
+		else
+		{
+			$table .= "\n";
+		}
+    }
+    return $table;
+	} else {
+	return '0';
 	}
+}

@@ -23,31 +23,56 @@
 		{
 			if(isset($_POST['resultat']))
 			{
-			$_POST['resultat']=$_POST['resultat']."00";
-			$tabCase=do_request($_POST['resultat'], $connexion);
-			$result = res_string($tabCase);
-			$monfichier = fopen("results/".$_POST['Fichier'].".txt", 'a');
-			fputs($monfichier, $result);
-			fclose($monfichier);
-			echo '<a href="./results/'.$_POST['Fichier'].'.txt">'.$_POST['Fichier'].'.txt</a>';
+				$offset=0;
+				$req=$_POST['resultat'].' LIMIT 100 OFFSET '.$offset.'';
+				$tab=do_request($req, $connexion);
+				$result=res_string($tab, 1);
+				$monfichier = fopen("results/".$_POST['Fichier'].".txt", 'a');
+				while($result != '0')
+				{
+					fputs($monfichier, $result);
+					$offset=$offset+10;
+					$req=$_POST['resultat'].' LIMIT 100 OFFSET '.$offset.'';
+					$tab=do_request($req, $connexion);
+					$result=res_string($tab, 0);
+				}
+				fclose($monfichier);
+				echo '<a href="./results/'.$_POST['Fichier'].'.txt">'.$_POST['Fichier'].'.txt</a>';
 			}
 			if(isset($_POST['resultat1']))
 			{
-				$_POST['resultat1']=$_POST['resultat1']."00";
-				$tabCase=do_request($_POST['resultat1'], $connexion);
-				$result = res_string($tabCase);
+				$offset=0;
+				$req=$_POST['resultat1'].' LIMIT 100 OFFSET '.$offset.'';
+				$tab=do_request($req, $connexion);
+				$result=res_string($tab, 1);
 				$monfichier = fopen("results/".$_POST['Fichier']."_similaires.txt", 'a');
-				fputs($monfichier, $result);
+				while($result != '0')
+				{
+					fputs($monfichier, $result);
+					$offset=$offset+10;
+					$req=$_POST['resultat1'].' LIMIT 100 OFFSET '.$offset.'';
+					$tab=do_request($req, $connexion);
+					$result=res_string($tab, 0);
+				}
 				fclose($monfichier);
-				echo '<a href="./results/'.$_POST['Fichier'].'_similaires.txt">'.$_POST['Fichier'].'_similaires.txt </a>';
+				echo '<a href="./results/'.$_POST['Fichier'].'_similaires.txt">'.$_POST['Fichier'].'_similaires.txt</a>';
 			}
 			if(isset($_POST['resultat2']))
 			{
-				$_POST['resultat2']=$_POST['resultat2']."00";
-				$tabCase=do_request($_POST['resultat2'], $connexion);
-				$result = res_string($tabCase);
+			
+				$offset=0;
+				$req=$_POST['resultat2'].' LIMIT 100 OFFSET '.$offset.'';
+				$tab=do_request($req, $connexion);
+				$result=res_string($tab, 1);
 				$monfichier = fopen("results/".$_POST['Fichier']."_identiques.txt", 'a');
-				fputs($monfichier, $result);
+				while($result != '0')
+				{
+					fputs($monfichier, $result);
+					$offset=$offset+10;
+					$req=$_POST['resultat2'].' LIMIT 100 OFFSET '.$offset.'';
+					$tab=do_request($req, $connexion);
+					$result=res_string($tab, 0);
+				}
 				fclose($monfichier);
 				echo '<a href="./results/'.$_POST['Fichier'].'_identiques.txt">'.$_POST['Fichier'].'_identiques.txt</a>';
 			}
@@ -136,11 +161,12 @@
 						(SELECT DISTINCT NomP 
 						FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE
 						WHERE NomS IN '.$cNoNomS.')
-						LIMIT 1000';
+						LIMIT 100';
 						$tabCase1=do_request($reqCase1, $connexion);
 						print_request($tabCase1);
-
-						echo '<input type="hidden" name="resultat" value="'.$reqCase1.'"/>'; 
+						
+						$req=substr($reqCase1,0,-10);
+						echo '<input type="hidden" name="resultat" value="'.$req.'"/>'; 
 					}
 					else
 					{
@@ -155,11 +181,12 @@
 							AND NomP NOT IN(SELECT DISTINCT NomP 
 							FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE
 							WHERE NomS IN '.$cNoNomS.')
-							LIMIT 1000';
+							LIMIT 100';
 							$tabCase2et3=do_request($reqCase2et3, $connexion);
 							print_request($tabCase2et3);
-
-							echo '<input type="hidden" name="resultat" value="'.$reqCase2et3.'"/>'; 
+							
+							$req=substr($reqCase2et3,0,-10);
+							echo '<input type="hidden" name="resultat" value="'.$req.'"/>'; 
 						}
 						else
 						{
@@ -177,7 +204,7 @@
 								AND s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.'
 								AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 								ORDER BY p1.NomP, s1.NOMS, s2.NOMS
-								LIMIT 500';
+								LIMIT 10';
 								$tabCase1et3Bis=do_request($reqCase1et3Bis, $connexion);
 								print_request($tabCase1et3Bis);
 							
@@ -193,14 +220,15 @@
 								AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 								AND p2.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 								ORDER BY c.PourcentageId, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP
-								LIMIT 500';
+								LIMIT 10';
 								$tabCase1et3=do_request($reqCase1et3, $connexion);
 								print_request($tabCase1et3);
 
-
-								echo '<input type="hidden" name="resultat" value="'.$reqCase1et3Bis.'"/>'; 
-								echo '<input type="hidden" name="resultat2" value="'.$reqCase1et3.'"/>'; 
-
+								$req1=substr($reqCase1et3,0,-9);
+								echo '<input type="hidden" name="resultat1" value="'.$req1.'"/>'; 
+								
+								$req2=substr($reqCase1et3Bis,0,-9);
+								echo '<input type="hidden" name="resultat2" value="'.$req2.'"/>'; 
 							}
 							else
 							{
@@ -237,8 +265,12 @@
 									$tabCase1et2et3=do_request($reqCase1et2et3, $connexion);
 									print_request($tabCase1et2et3);
 
-									echo '<input type="hidden" name="resultat1" value="'.$reqCase1et2et3.'"/>'; 
-									echo '<input type="hidden" name="resultat2" value="'.$reqCase1et2et3Bis.'"/>'; 
+									
+									$req1=substr($reqCase1et2et3,0,-10);
+									echo '<input type="hidden" name="resultat1" value="'.$req1.'"/>'; 
+							
+									$req2=substr($reqCase1et2et3Bis,0,-10);
+									echo '<input type="hidden" name="resultat2" value="'.$req2.'"/>'; 
 
 								}
 							}
@@ -286,11 +318,13 @@
 							LIMIT 10';
 							$tabCase3=do_request($reqCase3, $connexion);
 							print_request($tabCase3);
-
-							echo '<input type="hidden" name="resultat1" value="'.$reqCase3.'"/>'; 
-							echo '<input type="hidden" name="resultat2" value="'.$reqCase3Bis.'"/>'; 
-
-						
+							
+							
+							$req1=substr($reqCase3,0,-10);
+							echo '<input type="hidden" name="resultat1" value="'.$req1.'"/>'; 
+							
+							$req2=substr($reqCase3Bis,0,-10);
+							echo '<input type="hidden" name="resultat2" value="'.$req2.'"/>'; 						
 						}
 						else
 						{ 
@@ -328,9 +362,12 @@
 									LIMIT 1000';
 									$tabCase2Et3=do_request($reqCase2Et3, $connexion);
 									print_request($tabCase2Et3);
-
-									echo '<input type="hidden" name="resultat1" value="'.$reqCase2Et3.'"/>'; 
-									echo '<input type="hidden" name="resultat2" value="'.$reqCase2Et3Bis.'"/>'; 
+									
+									$req1=substr($reqCase2Et3,0,-10);
+									echo '<input type="hidden" name="resultat1" value="'.$req1.'"/>'; 
+							
+									$req2=substr($reqCase2Et3Bis,0,-10);
+									echo '<input type="hidden" name="resultat2" value="'.$req2.'"/>'; 
 
 								}
 							}
@@ -354,7 +391,9 @@
 								LIMIT 1000';
 								$tabCase2=do_request($reqCase2, $connexion);
 								print_request($tabCase2);
-								echo '<input type="hidden" name="resultat" value="'.$reqCase2.'"/>'; 
+								
+								$req2=substr($reqCase2,0,-10);
+								echo '<input type="hidden" name="resultat2" value="'.$req2.'"/>';  
 							}
 						}
 					}					

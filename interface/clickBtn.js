@@ -80,6 +80,3 @@ function declickAllWithout()
 	}
 	makeEnabled();
 }
-
-
-

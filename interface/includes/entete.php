@@ -15,8 +15,9 @@ include("fonctions1.php");
 	</head>
 	
 	<header>
-		<a> <mark>Dickeya </mark></a>
-		<a href="index.php"><img src = "images/logo.png" HEIGHT=85 WIDTH=200 border=0 alt="IMP" title= "aller sur page d'accueil" class="logo"></a>
+		<a href="index.php"><img src = "images/logo.png" HEIGHT=75 WIDTH=200 border=0 alt="IMP" title= "aller sur page d'accueil" class="logo"></a>
+		<a> <mark>Dickeya</mark></a>
+		<a href="http://www.univ-lyon1.fr/" target="_blank"><img src = "images/UCBL.png" HEIGHT=85 WIDTH=120 title = "site de l'université"></a>
 		<br>
 		<nav class="ligne">
 			<a href="index.php"><img src = "images/home.png" HEIGHT=20 WIDTH=20 border=0 alt="IMP" title= "aller sur page d'accueil" class="logo"></a>
