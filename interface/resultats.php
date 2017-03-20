@@ -245,7 +245,7 @@
 									AND s1.NomS IN '.$cNomS.' AND s2.NomS IN '.$cNomS.'
 									AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 									ORDER BY p1.NomP, s1.NOMS, s2.NOMS
-									LIMIT 1000';
+									LIMIT 10';
 									$tabCase1et2et3Bis=do_request($reqCase1et2et3Bis, $connexion);
 									print_request($tabCase1et2et3Bis);
 							
@@ -261,7 +261,7 @@
 									AND p1.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 									AND p2.NomP NOT IN (SELECT DISTINCT NomP FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE WHERE NomS IN '.$cNoNomS.')
 									ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
-									LIMIT 1000';
+									LIMIT 10';
 									$tabCase1et2et3=do_request($reqCase1et2et3, $connexion);
 									print_request($tabCase1et2et3);
 
@@ -345,7 +345,7 @@
 									INNER JOIN FONCTION f ON f.idFo=p2.idFo
 									WHERE s1.NomS>s2.NomS AND  p1.NomP=p2.NomP AND f.NomFo = \''.$_POST['fonction'].'\'
 									ORDER BY p1.NomP, s1.NOMS, s2.NOMS
-									LIMIT 1000';
+									LIMIT 10';
 									$tabCase2Et3Bis=do_request($reqCase2Et3Bis, $connexion);
 									print_request($tabCase2Et3Bis);
 							
@@ -359,7 +359,7 @@
 									INNER JOIN FONCTION f2 ON f2.idFo=p2.idFo
 									WHERE f1.NomFo = \''.$_POST['fonction'].'\' AND f2.NomFo = \''.$_POST['fonction'].'\' AND c.PourcentageId >= '.$_POST['PourcentId'].' AND c.PourcentageGap <= '.$_POST['PourcentGap'].' AND c.TailleAli >='.$_POST['TailleAli'].'
 									ORDER BY c.PourcentageId DESC, c.PourcentageGap, s1.NOMS, p1.NomP, s2.NOMS, p2.NomP 
-									LIMIT 1000';
+									LIMIT 10';
 									$tabCase2Et3=do_request($reqCase2Et3, $connexion);
 									print_request($tabCase2Et3);
 									
@@ -388,7 +388,7 @@
 								$reqCase2='SELECT NomS, NomP, NomGene, NomFo
 								FROM PROTEINE NATURAL JOIN CONTIENT NATURAL JOIN SOUCHE NATURAL JOIN FONCTION 
 								WHERE NomFo = \''.$_POST['fonction'].'\'
-								LIMIT 1000';
+								LIMIT 100';
 								$tabCase2=do_request($reqCase2, $connexion);
 								print_request($tabCase2);
 								

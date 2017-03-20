@@ -1,12 +1,16 @@
 import mysql.connector
 
-conn = mysql.connector.connect(host="localhost",user="",password="", database="Dickeya")
+conn = mysql.connector.connect(host='localhost',user='root',password='')
 cursor = conn.cursor()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS PROJET(
-        id              int (11) Auto_increment  NOT NULL ,
-        Nom             Varchar (200) NOT NULL ,
+cursor.execute("""CREATE DATABASE IF NOT EXISTS Dickeya""")
+
+conn = mysql.connector.connect(host='localhost',user='root',password='',database='Dickeya')
+cursor = conn.cursor()
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS PROJET(
+        id int (11) Auto_increment  NOT NULL ,
+        Nom Varchar (200) NOT NULL ,
         NomFichierFasta Varchar (200) ,
         NomFichierBlast Varchar (200) ,
         NomFichierSilix Varchar (200) ,
@@ -16,7 +20,7 @@ CREATE TABLE IF NOT EXISTS PROJET(
 );""")
 
 cursor.execute ("""CREATE TABLE IF NOT EXISTS SOUCHE(
-           idS  int (11) Auto_increment  NOT NULL ,
+        idS  int (11) Auto_increment  NOT NULL ,
         NomS Varchar (200) ,
         id   Int NOT NULL ,
         PRIMARY KEY (idS) ,
@@ -70,4 +74,8 @@ cursor.execute("""ALTER TABLE CONTIENT ADD CONSTRAINT FK_CONTIENT_idP FOREIGN KE
 cursor.execute("""ALTER TABLE COMPARE ADD CONSTRAINT FK_COMPARE_idP1 FOREIGN KEY (idP1) REFERENCES PROTEINE(idP);""")
 cursor.execute("""ALTER TABLE COMPARE ADD CONSTRAINT FK_COMPARE_idP2 FOREIGN KEY (idP2) REFERENCES PROTEINE(idP);""")
 
-cursor.execute("""INSERT INTO PROJET(id,Nom) VALUES(1,"test")""")
+cursor.execute("""INSERT INTO PROJET(id, Nom) VALUES(%s, %s)""", ("1","Dickeya"))
+
+conn.commit()
+
+conn.close()
