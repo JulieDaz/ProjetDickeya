@@ -3,6 +3,7 @@
 	<?php
 	$connexion= connect();
 	
+// Cadre pour afficher informations sur le projet en cours (Dickeya)
 	$Proteome='SELECT COUNT(*) FROM SOUCHE';
 	$TabProteome=do_request($Proteome, $connexion);
 	$rProteome=print_result($TabProteome);

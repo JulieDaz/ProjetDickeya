@@ -3,6 +3,9 @@
 		require ('includes/entete.php');
 	?>
 
+<!--Page d'acceuil permettant de visualiser les projets-->
+<!--Pour l'instant on ne peut visualiser que Dickeya-->
+
 	<section>
 		<br>
 		<h2>Accueil</h2>

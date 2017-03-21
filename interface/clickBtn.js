@@ -1,3 +1,4 @@
+/*Si la souche est cochée dans "présentes dans" alors on ne peut plus la cocher dans "absentes dans" sinon elle peut être cochée*/
 function putEnabled(source)
 {
 	check = document.querySelectorAll("#div1 input");
@@ -15,6 +16,7 @@ function putEnabled(source)
 	}
 }
 
+/*Si la souche est cochée dans "absentes dans" alors on ne peut plus la cocher dans "présentes dans" sinon elle peut être cochée*/
 function makeEnabled(source)
 {
 	check = document.querySelectorAll("#div1 input");
@@ -32,6 +34,7 @@ function makeEnabled(source)
 	}
 }
 
+/*Bouton pour cocher tout ce qui est disponible dans "présentes dans"*/
 function clickAll()
 {
 	check = document.querySelectorAll("[name^=NomS]");
@@ -47,6 +50,7 @@ function clickAll()
 	putEnabled();
 }
 
+/*Bouton pour tout décocher*/
 function declickAll()
 {
 	check = document.querySelectorAll("[name^=NomS]");
@@ -57,6 +61,7 @@ function declickAll()
 	putEnabled();
 }
 
+/*Bouton pour cocher tout ce qui est disponible dans "absentes dans"*/
 function clickAllWithout(source)
 {
 	check = document.querySelectorAll("#div1 input");
@@ -71,6 +76,7 @@ function clickAllWithout(source)
 	makeEnabled();
 }
 
+/*Bouton pour tout décocher*/
 function declickAllWithout()
 {
 	check = document.querySelectorAll("[name^=NoNomS]");

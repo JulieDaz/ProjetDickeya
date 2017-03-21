@@ -10,6 +10,7 @@
 
 		<form method="POST" action="resultats.php" name="formulaire">
 		
+<!--Block de requête n°1 : selection des souches d'interêt-->
 		<input type="checkbox" name="proteome" id="proteome"/><label><b>Protéines présentes dans ces protéomes :</b></label>
 		<br><br>
 		<div class="divScroll" id="div1">
@@ -18,15 +19,12 @@
 		$connexion= connect();
 		$req2='SELECT NomS FROM SOUCHE;' ;
 		$tab2=do_request($req2, $connexion);
-		#print_request($tab2);
-		#deconnect($connexion);
 		
 		$i = 0;
 		foreach($tab2 as $v1) {
 			foreach($v1 as $v2) {
 				if ($v2 != "NomS") {
 				echo '<input type="checkbox" onclick="putEnabled()" name="NomS'.$i.'" value="'.$v2.'">' ,$v2,'<br>';
-				#echo "$v2\n";
 				$i = $i + 1	;}
 			}
 		}
@@ -35,7 +33,7 @@
 		<input type="button" onclick="clickAll()" value="Tout cocher"/>
 		<input type="button" onclick="declickAll()" value="Tout décocher"/>
 		<br>
-		<p><b>Mais pas dans ceux-ci:</b></p>
+		<p><b>Mais absentes dans ceux-ci:</b></p>
 		<div class="divScroll" id="div2">';
 		
 		$i = 0;
@@ -56,6 +54,7 @@
 		<br>
 		<br>
 		
+		<!--Block de requête n°2 : selection de la fonction d'interêt-->
 		<input type="checkbox" name="pfonction" id="pfonction"/><label><b>Protéines impliquées dans la fonction</b></label>
 		<br><br>
 
@@ -75,6 +74,8 @@
 		?>
 		<br>
 		<br>
+
+		<!--Block de requête n°3 : selection des paires de protéines selon trois contraintes: ID, Gap, Taille alignement-->
 		<input type="checkbox" name="paires" id="paires"/><label><b>Paires de protéines telles que: </b></label>
 		<br><br>
 		<label for ="PourcentageId">Pourcentage identité supérieur à :</label>
@@ -97,7 +98,5 @@
 		<input type="submit" name="valider" value="Lancer les requêtes"/>		
 		</form>
 	</section>
-	<table>
-	</table>
 	<script type="text/javascript" src="clickBtn.js"></script>
 	<?php require ('includes/pieddepage.php') ;  ?>

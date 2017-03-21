@@ -4,13 +4,14 @@
 		background-color : white ;
 	}
 	
-		
+/*Zone scrollbar*/
 	.divScroll {
 	overflow:scroll;
 	height:200px;
 	width:700px;
 	}
-	
+
+/*Zone informations*/
 	.statistiques
 	{
 		position:absolute;
@@ -24,7 +25,8 @@
 		border-color:grey;
 		padding:5px;
 	}
-	
+
+/*Police du titre*/
 mark{
 	color : purple ;
 	background-color : white ;
@@ -54,45 +56,5 @@ header {
 	
 .logo
 	{
-	/*float: right;*/
 	position : top right;
 	}
-	
-/*
-aside {
-		position: left;
-		width: 10;
-		float: left;
-	}
-
-
-
-
-	
-strong
-	{
-	text-align: justify;
-	}
-
-h2	
-	{
-		font-size:50px ;
-	}
-h3
-	{
-		font-size:40px ;
-	}
-p
-	{
-		font-size:30px ;
-	}
-	
-h4
-	{
-		font-size : 36px;
-	}
-	
-	.ligne {
-	clear : both;
-	}
-	*/

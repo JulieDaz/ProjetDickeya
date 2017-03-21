@@ -1,37 +1,37 @@
 <?php session_start();
 
-/***** Connexion à la base de donnée ******/
+/***** Connexion Ã  la base de donnÃ©e ******/
 function connect() 
 {
     $user = 'root'; // utilisatrice
     $mdp = '';  // mot de passe
     $machine = '127.0.0.1'; //serveur sur lequel tourne le SGBD
-    $bd = 'Dickeya';  // base de données à laquelle se connecter
+    $bd = 'Dickeya';  // base de donnï¿½es ï¿½ laquelle se connecter
     $connexion = mysqli_connect($machine, $user, $mdp, $bd);
 	
     mysqli_set_charset($connexion, "utf8");
     
 	if (mysqli_connect_errno()) // erreur si > 0
     {
-        printf("Échec de la connexion :%s", mysqli_connect_error());
+        printf("Echec de la connexion :%s", mysqli_connect_error());
     }
     return $connexion;
 }
 
-/*****deconnexion a la base de donnée****/
+/*****deconnexion a la base de donnÃ©e****/
 
 function deconnect($connexion)
 {
 	mysqli_close($connexion);
 }
 
-/******requetes à la base****/
+/******requetes Ã  la base****/
 
-/* Execute une requête et renvoie un tableau utilisable en php */
+/* Execute une requÃªte et renvoie un tableau utilisable en php */
 function do_request($request, $connexion) {
 
     $sql = mysqli_query($connexion, $request);
-	//si request renvoie une table nulle alors, sql  = 0 ( donc un booléen )
+	//si request renvoie une table nulle alors, sql  = 0 ( donc un boolï¿½en )
 	// si request renvoie rien, le nombre de ligne de sql sera en dessous de 1 donc ligne vide
 	// si pas d'erreur ( donc pas 0 ) et table non vide 
     if (!is_bool($sql) && mysqli_num_rows($sql) >= 1) {
@@ -56,7 +56,7 @@ function sql_to_array($sql_result) {
 			
             for ($i = 0; $i < count($info); $i++) {
                 $header[$i] = $info[$i]->name;
-				// recupere la valeur name à l'index i de info et la met dans header à l'index i
+				// recupere la valeur name ï¿½ l'index i de info et la met dans header ï¿½ l'index i
             }
 			
             $table_sql[0] = $header;
@@ -88,7 +88,7 @@ if(count($table_sql) >= 1) {
     $table.= '</table>';
     echo $table;
 	} else {
-	echo "Aucun résultat disponible...";
+	echo "Aucun resultat disponible...";
 	}
 }
 
@@ -103,12 +103,12 @@ if(count($table_sql) >= 1) {
     }
     echo $table;
 	} else {
-	echo "Aucun résultat disponible...";
+	echo "Aucun resultat disponible...";
 	}
 }
 
 
-/* renvoie la string résultat */
+/* renvoie la string resultat */
 function res_string($table_sql, $i) {
 if(count($table_sql) >= 1) {
 	$table = "";
