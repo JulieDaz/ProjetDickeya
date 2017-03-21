@@ -32,7 +32,7 @@ for ligne in fichier :
 
 	cursor.execute("""UPDATE PROTEINE SET idFa = %s WHERE NomP = %s""", (idFa, prot))
 
-conn.commit()
+	conn.commit()
 
 conn.close()
 

@@ -11,8 +11,7 @@ for line in f :
 		gene = line.split()[1]
 
 		cursor.execute("""UPDATE PROTEINE SET NomGene = %s WHERE NomP = %s""", (gene, prot))
-
-conn.commit()
+		conn.commit()
 
 conn.close()
 

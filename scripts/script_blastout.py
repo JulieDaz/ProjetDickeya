@@ -34,8 +34,8 @@ for line in f :
 		rows = cursor.fetchall()
 		if rows == []:
 			cursor.execute("""INSERT INTO COMPARE(idP1, idP2, PourcentageId, PourcentageGap, TailleAli) VALUES (%s, %s, %s, %s, %s)""", (idP1, idP2, Id, Gap, TailleAli))
+			conn.commit()
 
-conn.commit()
 conn.close()
 
 f.close

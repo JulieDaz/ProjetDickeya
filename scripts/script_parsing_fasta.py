@@ -68,7 +68,7 @@ for seq_record in SeqIO.parse("../data/All50Dickeya.fasta", "fasta"):
 		idFo = rows[0][0]
 		cursor.execute("""UPDATE PROTEINE SET idFo = %s WHERE idP = %s""", (idFo, idP))
 
-conn.commit()
+	conn.commit()
 
 conn.close()
 
