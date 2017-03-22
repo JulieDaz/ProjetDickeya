@@ -1,15 +1,19 @@
 #########################################################################
+
 PROJET DICKEYA - README
 
 Auteurs :
 DAZENIERE Julie
 KIM Yujin
 MORANGES Maëlle
+
 #########################################################################
 
 
 #########################################################################
+
 INSTRUCTIONS D'INSTALLATION
+
 #########################################################################
 
 #### Installer XAMPP ####
@@ -44,18 +48,18 @@ Pré-requis pour les utilisateurs Windows : installer impérativement python3.4 
 	- MacOS : https://dev.mysql.com/downloads/file/?id=467834 
 3.	Télécharger le package python nommé Biopython : 
 	- Linux : 
-	•	pip3 install biopython
-	•	python3 setup.py build
-	•	python3 setup.py test
-	•	sudo python3 setup.py install
+		- pip3 install biopython
+		- python3 setup.py build
+		- python3 setup.py test
+		- sudo python3 setup.py install
 	- Windows : http://biopython.org/DIST/biopython-1.68.win32-py3.4.msi
-	•	Vous devez installer Biopython dans le répertoire Python34
+		- Vous devez installer Biopython dans le répertoire Python34
 	- MacOS : 
-	•	sudo easy_install pip3
-	•	pip3 install biopython
-	•	python3 setup.py build
-	•	python3 setup.py test
-	•	sudo python3 setup.py install
+		- sudo easy_install pip3
+		- pip3 install biopython
+		- python3 setup.py build
+		- python3 setup.py test
+		- sudo python3 setup.py install
 4.	Suivre ensuite les étapes selon votre système d’exploitation :
 	- Linux : exécuter la commande sh insertion.sh
 	- Windows : exécuter les scripts un par un dans l’ordre suivant : creation_bd.py, script_parsing_fasta.py, script_blastout.py, script_correspondance.py, script_family.py 
@@ -66,14 +70,18 @@ Pré-requis pour les utilisateurs Windows : installer impérativement python3.4 
 
 
 #########################################################################
+
 MISE EN PLACE DE L’INTERFACE
+
 #########################################################################
 
 Dans le dossier htdocs situé dans le dossier xampp, créer un répertoire Dickeya. Copier-coller l'intégralité du contenu du répertoire interface (situé dans le répertoire ProjetDickeya préalablement décompressé) dans le répertoire Dickeya que vous venez de créer. 
 
 
 #########################################################################
+
 EXÉCUTION DU PROGRAMME
+
 #########################################################################
 
 Tout d’abord il faut exécuter xampp :
