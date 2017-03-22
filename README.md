@@ -1,16 +1,19 @@
 ###############################
 PROJET DICKEYA - README
+###############################
+
 
 Auteurs :
 DAZENIERE Julie
 KIM Yujin
 MORANGES Maëlle
-###############################
+
 
 
 ###############################
 INSTRUCTIONS D'INSTALLATION
 ###############################
+
 
 #### Installer XAMPP ####
 
@@ -65,16 +68,20 @@ Pré-requis pour les utilisateurs Windows : installer impérativement python3.4 
 	L'importation totale de la base de données pourrait ainsi se faire sur environ 24h. 
 
 
+
 ###############################
 MISE EN PLACE DE L’INTERFACE
 ###############################
 
+
 Dans le dossier htdocs situé dans le dossier xampp, créer un répertoire Dickeya. Copier-coller l'intégralité du contenu du répertoire interface (situé dans le répertoire ProjetDickeya préalablement décompressé) dans le répertoire Dickeya que vous venez de créer. 
+
 
 
 ###############################
 EXÉCUTION DU PROGRAMME
 ###############################
+
 
 Tout d’abord il faut exécuter xampp :
 Linux : sudo ./opt/lampp/xampp start
